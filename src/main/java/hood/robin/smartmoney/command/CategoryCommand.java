@@ -1,6 +1,5 @@
 package hood.robin.smartmoney.command;
 
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -16,6 +15,7 @@ public class CategoryCommand {
     @Size(max = 100)
     private String name;
 
+    @NotNull
     @Size(max = 500)
-    private String description;
+    private String description = "Test";
 }

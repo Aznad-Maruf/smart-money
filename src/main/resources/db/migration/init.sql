@@ -1,3 +1,13 @@
+CREATE TABLE category (
+    id SERIAL PRIMARY KEY,
+    uuid UUID NOT NULL UNIQUE,
+    name VARCHAR(100) NOT NULL,
+    description VARCHAR(500),
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP,
+    version INTEGER
+);
+
 CREATE TABLE transaction (
     id SERIAL PRIMARY KEY,
     uuid UUID NOT NULL UNIQUE,
@@ -10,14 +20,4 @@ CREATE TABLE transaction (
     updated_at TIMESTAMP,
     version INTEGER,
     CONSTRAINT fk_transaction_category FOREIGN KEY (category_id) REFERENCES category (id)
-);
-
-CREATE TABLE category (
-    id SERIAL PRIMARY KEY,
-    uuid UUID NOT NULL UNIQUE,
-    name VARCHAR(100) NOT NULL,
-    description VARCHAR(500),
-    created_at TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP,
-    version INTEGER
 );

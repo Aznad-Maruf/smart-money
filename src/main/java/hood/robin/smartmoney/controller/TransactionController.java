@@ -3,6 +3,8 @@ package hood.robin.smartmoney.controller;
 import hood.robin.smartmoney.command.TransactionCommand;
 import hood.robin.smartmoney.entity.Transaction;
 import hood.robin.smartmoney.helper.TransactionHelper;
+import hood.robin.smartmoney.service.BaseService;
+import org.springframework.web.multipart.MultipartFile;
 import hood.robin.smartmoney.service.TransactionService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -16,35 +18,26 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/transactions")
-public class TransactionController {
-
-    private final TransactionService transactionService;
+public class TransactionController extends BaseController<Transaction>{
 
     private final TransactionHelper transactionHelper;
+    private final TransactionService transactionService;
 
-    public TransactionController(TransactionService transactionService, TransactionHelper transactionHelper) {
+    public TransactionController(TransactionService transactionService,
+                                 TransactionHelper transactionHelper) {
+
+        super(transactionService);
         this.transactionHelper = transactionHelper;
         this.transactionService = transactionService;
     }
 
-    @GetMapping("/health")
-    public String health() {
-        return "Healthy";
-    }
+    @PostMapping("/upload")
+    public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file) {
+        List<Transaction> transactions = transactionHelper.parse(file);
 
-    @PostMapping()
-    public ResponseEntity<Transaction> save(@RequestBody @Valid TransactionCommand command) {
-        Transaction transaction = transactionHelper.createTransaction(command);
-
-        transaction = transactionService.save(transaction);
-
-        return ResponseEntity.ok(transaction);
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Transaction>> getAll(){
-        // TODO Add pagination
-        List<Transaction> transactions = transactionService.findAll();
+        for (Transaction transaction : transactions) {
+//            transactionService.save(transaction);
+        }
 
         return ResponseEntity.ok(transactions);
     }

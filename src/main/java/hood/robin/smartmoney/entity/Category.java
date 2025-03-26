@@ -16,7 +16,7 @@ import java.util.UUID;
 @Setter
 @NamedQueries({
         @NamedQuery(name = "Category.findByUuid", query = "SELECT c FROM Category c WHERE c.uuid = :uuid"),
-        @NamedQuery(name = "Category.findAll", query = "SELECT c FROM Category c")
+        @NamedQuery(name = "Category.findAll", query = "SELECT c FROM Category c order by c.name")
 })
 public class Category extends BaseEntity{
 
